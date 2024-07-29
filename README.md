@@ -9,7 +9,9 @@ Please ensure you have the following installed:
 
 Thanks for doing our recruitment home exercise. We have written a template solution for you, to save you from having to do too much setup.
 
-* Please open the solution in this repository, build and run it. 
+* Open the solution in this repository
+* Set *UKParliament.CodeTest.Web* as the startup project
+* Build and run it (NPM should install all the dependencies automatically)
 * Instructions have been provided for you within the solution and these will display on the home page. The home page also shows the assessment criteria for the test. You should aim to satisfy all points on it.
 
 ## Submitting your test
