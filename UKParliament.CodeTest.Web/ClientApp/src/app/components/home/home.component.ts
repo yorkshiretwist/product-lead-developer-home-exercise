@@ -12,8 +12,9 @@ export class HomeComponent {
   }
 
   getPersonById(id: number): void {
-    this.personService.getById(id).subscribe(
-      result => console.info(`User returned: ${JSON.stringify(result)}`),
-      error => console.error(`Error: ${error}`));
+    this.personService.getById(id).subscribe({
+      next: (result) => console.info(`User returned: ${JSON.stringify(result)}`),
+      error: (e) => console.error(`Error: ${e}`)
+    });
   }
 }

@@ -141,7 +141,7 @@
           Architecture
         </td>
         <td>
-          You should expand upon the N-tier skeleton structure setup in the test template. Data access should use the repository pattern, which the services then use to read/save data. Controllers then consume these services. Entities should be mapped to/from view models for use on the front-end.
+          You should expand upon the N-tier skeleton structure setup in the test template. Data access should use the repository pattern, which injects your database context and interacts with it. The services then use the repository to read/save data. Controllers then consume these services. Entities should be mapped to/from view models for use on the front-end. Services and controllers should not use the the database context directly.
         </td>
       </tr>
       <tr>
@@ -166,6 +166,14 @@
         </td>
         <td>
           Validation should be added server-side to check values provided for all fields are valid, which should be passed to the client-side to display. This includes the email address and date of birth which must be in a valid formats. You can add client-side validation if you would like to, but it should not be in place of server-side validation. The email address should also be unique to each person, so the application should validate that the same email is not used for another person.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Database & model
+        </td>
+        <td>
+          Entities and models should use appropriate types for the data they are storing. For example, a DateTime or DateOnly should be used for a date of birth, not a string.
         </td>
       </tr>
       <tr>
