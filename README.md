@@ -2,8 +2,8 @@
 
 ## Dependencies
 Please ensure you have the following installed:
-* .Net 8 SDK (you may need to ensure your Visual Studio installation is fully up to date)
-* Node v20.10.0 (min version)
+* .NET 8 SDK (you may need to ensure your Visual Studio installation is fully up to date)
+* Node v20.16.0 LTS
 
 ## Introduction
 
