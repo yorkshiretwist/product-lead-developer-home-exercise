@@ -5,7 +5,7 @@ using UKParliament.CodeTest.Web.ViewModels;
 namespace UKParliament.CodeTest.Web.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/people")]
 public class PersonController : ControllerBase
 {
     private readonly IPersonService _personService;

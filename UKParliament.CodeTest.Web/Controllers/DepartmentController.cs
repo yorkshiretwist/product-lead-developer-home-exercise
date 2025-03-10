@@ -5,7 +5,7 @@ using UKParliament.CodeTest.Web.ViewModels;
 namespace UKParliament.CodeTest.Web.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/departments")]
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentService _departmentService;
@@ -15,9 +15,8 @@ namespace UKParliament.CodeTest.Web.Controllers
             _departmentService = departmentService;
         }
 
-        [Route("{id:int}")]
         [HttpGet]
-        public async Task<ActionResult<DepartmentViewModel>> GetByIdAsync(int id)
+        public async Task<ActionResult<DepartmentViewModel>> GetAll()
         {
             var departments = await _departmentService.GetDepartmentsAsync();
             if (departments == null)
