@@ -9,6 +9,11 @@ namespace UKParliament.CodeTest.Data;
 
 public class PersonManagerContext : DbContext
 {
+    public PersonManagerContext()
+    {
+        
+    }
+
     public PersonManagerContext(DbContextOptions<PersonManagerContext> options) : base(options)
     {
 
@@ -41,7 +46,7 @@ public class PersonManagerContext : DbContext
         }
     }
 
-    public DbSet<Person> People { get; set; }
+    public virtual DbSet<Person> People { get; set; }
 
-    public DbSet<Department> Departments { get; set; }
+    public virtual DbSet<Department> Departments { get; set; }
 }

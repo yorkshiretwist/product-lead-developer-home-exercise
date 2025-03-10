@@ -1,11 +1,10 @@
-﻿using System;
-using UKParliament.CodeTest.Models;
+﻿using UKParliament.CodeTest.Models;
 
 namespace UKParliament.CodeTest.Data
 {
     public interface IRepository
     {
-        Task<Person> GetPersonByIdAsync(int id);
+        Task<Person?> GetPersonByIdAsync(int id);
 
         Task<Person> UpdatePersonAsync(Person person);
 
