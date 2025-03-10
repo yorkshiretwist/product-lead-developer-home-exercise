@@ -1,4 +1,5 @@
-using System.Threading.Tasks;
+using AutoMapper;
+using FluentAssertions;
 using Moq;
 using UKParliament.CodeTest.Data;
 using UKParliament.CodeTest.Models;
@@ -7,86 +8,76 @@ using Xunit;
 
 namespace UKParliament.CodeTest.Tests
 {
-    public class PersonServiceTests
+    public class PersonServiceTests : TestBase
     {
         private readonly Mock<IRepository> _mockRepository;
+        private readonly Mock<IPersonValidationService> _mockPersonValidationService;
         private readonly PersonService _personService;
 
         public PersonServiceTests()
         {
             _mockRepository = new Mock<IRepository>();
-            _personService = new PersonService(_mockRepository.Object);
+            _mockPersonValidationService = new Mock<IPersonValidationService>();
+            IMapper mapper = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile())).CreateMapper();
+            _personService = new PersonService(_mockRepository.Object, _mockPersonValidationService.Object, mapper);
         }
 
         [Fact]
-        public async Task CreatePersonAsync_ShouldCallRepositoryCreatePersonAsync()
+        public async Task CreatePersonAsync_WithValidModel_ShouldCallRepositoryCreatePersonAsync()
         {
             // Arrange
-            var person = new Person { Id = 1, FirstName = "John", LastName = "Doe", EmailAddress = "john.doe@example.com", DepartmentId = 1, IsActive = true };
-            _mockRepository.Setup(repo => repo.CreatePersonAsync(person)).ReturnsAsync(person);
+            var personToCreateViewModel = GetTestPersonViewModel(true);
+            var personToCreate = GetTestPerson();
+            personToCreate.Id = 0;
+            var createdPerson = GetTestPerson();
+            var createdPersonViewModel = GetTestPersonViewModel();
+            var departments = GetTestDepartments();
+
+            _mockRepository.Setup(repo => repo.CreatePersonAsync(It.IsAny<Person>())).ReturnsAsync(createdPerson);
+            _mockRepository.Setup(repo => repo.GetDepartmentByIdAsync(personToCreateViewModel.Department.Id)).ReturnsAsync(departments.First(x => x.Id == personToCreateViewModel.Department.Id));
+            _mockPersonValidationService.Setup(x => x.ValidatePersonAsync(personToCreateViewModel, true)).ReturnsAsync(new List<ValidationError>());
 
             // Act
-            var result = await _personService.CreatePersonAsync(person);
+            var result = await _personService.CreatePersonAsync(personToCreateViewModel);
 
             // Assert
-            Assert.Equal(person, result);
-            _mockRepository.Verify(repo => repo.CreatePersonAsync(person), Times.Once);
+            result.Should().NotBeNull();
+            result.Person.Should().BeEquivalentTo(createdPersonViewModel);
+            result.ValidationErrors.Should().BeNullOrEmpty();
+            _mockRepository.Verify(repo => repo.CreatePersonAsync(It.Is<Person>(x => x.Should().BeEquivalentTo(personToCreate, "") != null)), Times.Once);
+            _mockRepository.Verify(repo => repo.GetDepartmentByIdAsync(personToCreateViewModel.Department.Id), Times.Once);
+            _mockPersonValidationService.Verify(x => x.ValidatePersonAsync(personToCreateViewModel, true), Times.Once);
         }
 
         [Fact]
-        public async Task GetPersonByIdAsync_ShouldCallRepositoryGetPersonByIdAsync()
+        public async Task CreatePersonAsync_WithInvalidModel_ShouldReturnValidationErrors()
         {
             // Arrange
-            var person = new Person { Id = 1, FirstName = "John", LastName = "Doe", EmailAddress = "john.doe@example.com", DepartmentId = 1, IsActive = true };
-            _mockRepository.Setup(repo => repo.GetPersonByIdAsync(1)).ReturnsAsync(person);
+            var personToCreateViewModel = GetTestPersonViewModel(true);
+            var personToCreate = GetTestPerson();
+            personToCreate.Id = 0;
 
-            // Act
-            var result = await _personService.GetPersonByIdAsync(1);
+            _mockRepository.Setup(repo => repo.CreatePersonAsync(It.IsAny<Person>())).ReturnsAsync(personToCreate);
 
-            // Assert
-            Assert.Equal(person, result);
-            _mockRepository.Verify(repo => repo.GetPersonByIdAsync(1), Times.Once);
-        }
-
-        [Fact]
-        public async Task UpdatePersonAsync_ShouldCallRepositoryUpdatePersonAsync()
-        {
-            // Arrange
-            var person = new Person { Id = 1, FirstName = "John", LastName = "Doe", EmailAddress = "john.doe@example.com", DepartmentId = 1, IsActive = true };
-            _mockRepository.Setup(repo => repo.UpdatePersonAsync(person)).ReturnsAsync(person);
-
-            // Act
-            var result = await _personService.UpdatePersonAsync(person);
-
-            // Assert
-            Assert.Equal(person, result);
-            _mockRepository.Verify(repo => repo.UpdatePersonAsync(person), Times.Once);
-        }
-
-        [Fact]
-        public async Task SearchPeopleAsync_ShouldCallRepositorySearchPeopleAsync()
-        {
-            // Arrange
-            var searchPeopleModel = new SearchPeopleModel { Query = "John", Page = 1, PageSize = 10, DepartmentId = 1 };
-            var pagedResponse = new PagedResponseModel<Person>
+            var validationErrors = new List<ValidationError>
             {
-                Page = 1,
-                PageSize = 10,
-                TotalCount = 1,
-                TotalPages = 1,
-                Items = new List<Person>
-                {
-                    new Person { Id = 1, FirstName = "John", LastName = "Doe", EmailAddress = "john.doe@example.com", DepartmentId = 1, IsActive = true }
-                }
+                PersonValidationService.InvalidEmailAddressError,
+                PersonValidationService.InvalidDepartmentError
             };
-            _mockRepository.Setup(repo => repo.SearchPeopleAsync(searchPeopleModel)).ReturnsAsync(pagedResponse);
+            _mockPersonValidationService.Setup(x => x.ValidatePersonAsync(personToCreateViewModel, true)).ReturnsAsync(validationErrors);
 
             // Act
-            var result = await _personService.SearchPeopleAsync(searchPeopleModel);
+            var result = await _personService.CreatePersonAsync(personToCreateViewModel);
 
             // Assert
-            Assert.Equal(pagedResponse, result);
-            _mockRepository.Verify(repo => repo.SearchPeopleAsync(searchPeopleModel), Times.Once);
+            result.Should().NotBeNull();
+            result.Person.Should().BeNull();
+            result.ValidationErrors.Should().BeEquivalentTo(validationErrors);
+            _mockRepository.Verify(repo => repo.CreatePersonAsync(It.IsAny<Person>()), Times.Never);
+            _mockRepository.Verify(repo => repo.GetDepartmentByIdAsync(It.IsAny<int>()), Times.Never);
+            _mockPersonValidationService.Verify(x => x.ValidatePersonAsync(personToCreateViewModel, true), Times.Once);
         }
+
+        // TODO: add tests for GetPersonByIdAsync, SearchPeopleAsync, and UpdatePersonAsync
     }
 }

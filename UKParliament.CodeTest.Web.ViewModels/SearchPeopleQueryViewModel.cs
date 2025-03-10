@@ -1,6 +1,6 @@
-﻿namespace UKParliament.CodeTest.Models
+﻿namespace UKParliament.CodeTest.Web.ViewModels
 {
-    public class SearchPeopleModel
+    public class SearchPeopleQueryViewModel
     {
         /// <summary>
         /// The text query, which searches email addresses, first names, and last names

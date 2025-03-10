@@ -1,4 +1,3 @@
-using Bogus;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -12,7 +11,7 @@ using Person = UKParliament.CodeTest.Models.Person;
 
 namespace UKParliament.CodeTest.Tests
 {
-    public class RepositoryTests
+    public class RepositoryTests : TestBase
     {
         private readonly Mock<PersonManagerContext> _mockPersonManagerContext;
         private readonly Repository _repository;
@@ -24,33 +23,18 @@ namespace UKParliament.CodeTest.Tests
             _repository = new Repository(_mockPersonManagerContext.Object);
         }
 
-        private ICollection<Department> GetTestDepartments()
+        [Fact]
+        public async Task GetDepartmentsAsync_ShouldReturnDepartments()
         {
-            return new List<Department>
-            {
-                new Department { Id = 1, Name = "Sales" },
-                new Department { Id = 2, Name = "Marketing" },
-                new Department { Id = 3, Name = "Finance" },
-                new Department { Id = 4, Name = "HR" }
-            };
-        }
+            // Arrange
+            var testDepartments = GetTestDepartments();
+            _mockPersonManagerContext.Setup(m => m.Departments).ReturnsDbSet(testDepartments);
 
-        private ICollection<Person> GetTestPeople()
-        {
-            var list = new List<Person>();
-            var faker = new Faker();
-            for (var i = 1; i < 100; i++)
-            {
-                list.Add(new Person
-                {
-                    Id = i,
-                    FirstName = faker.Name.FirstName(),
-                    LastName = faker.Name.LastName(),
-                    DepartmentId = faker.Random.Number(1, 4),
-                    EmailAddress = faker.Internet.Email()
-                });
-            }
-            return list;
+            // Act
+            var result = await _repository.GetDepartmentsAsync();
+
+            // Assert
+            result.Should().BeEquivalentTo(testDepartments);
         }
 
         [Fact]
@@ -157,7 +141,7 @@ namespace UKParliament.CodeTest.Tests
             var testPeople = GetTestPeople();
             _mockPersonManagerContext.Setup(m => m.People).ReturnsDbSet(testPeople);
 
-            var searchPeopleModel = new SearchPeopleModel
+            var searchPeopleModel = new SearchPeopleQuery
             {
                 Page = 1,
                 PageSize = 10
@@ -179,8 +163,6 @@ namespace UKParliament.CodeTest.Tests
             result.Items.Should().BeEquivalentTo(expectedPeople);
         }
 
-        // TODO: further tests required
-        // - Searching by text query
-        // - Searching by department id
+        // TODO: add tests for SearchPeopleAsync with text query and department id, GetDepartmentsAsync, and GetDepartmentByIdAsync
     }
 }

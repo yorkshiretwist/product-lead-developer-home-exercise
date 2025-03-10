@@ -11,4 +11,6 @@ public class PersonViewModel
     public string? EmailAddress { get; set; }
 
     public bool IsActive { get; set; }
+
+    public DepartmentViewModel? Department { get; set; }
 }

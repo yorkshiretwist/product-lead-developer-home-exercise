@@ -10,6 +10,10 @@ namespace UKParliament.CodeTest.Data
 
         Task<Person> CreatePersonAsync(Person person);
 
-        Task<PagedResponseModel<Person>> SearchPeopleAsync(SearchPeopleModel searchPeopleModel);
+        Task<PagedResult<Person>> SearchPeopleAsync(SearchPeopleQuery searchPeopleModel);
+
+        Task<ICollection<Department>> GetDepartmentsAsync();
+
+        Task<Department?> GetDepartmentByIdAsync(int id);
     }
 }

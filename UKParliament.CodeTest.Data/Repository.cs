@@ -38,7 +38,7 @@ namespace UKParliament.CodeTest.Data
             return person;
         }
 
-        public async Task<PagedResponseModel<Person>> SearchPeopleAsync(SearchPeopleModel searchPeopleModel)
+        public async Task<PagedResult<Person>> SearchPeopleAsync(SearchPeopleQuery searchPeopleModel)
         {
             var skip = searchPeopleModel.PageSize * (searchPeopleModel.Page - 1);
             var query = _personManagerContext.People;
@@ -65,7 +65,7 @@ namespace UKParliament.CodeTest.Data
                 .Skip(skip)
                 .Take(searchPeopleModel.PageSize);
 
-            return new PagedResponseModel<Person>
+            return new PagedResult<Person>
             {
                 TotalCount = totalPeopleFound,
                 Items = pagedPeople.ToList(),
@@ -73,6 +73,16 @@ namespace UKParliament.CodeTest.Data
                 PageSize = searchPeopleModel.PageSize,
                 TotalPages = totalPages
             };
+        }
+
+        public async Task<ICollection<Department>> GetDepartmentsAsync()
+        {
+            return _personManagerContext.Departments.ToList();
+        }
+
+        public async Task<Department?> GetDepartmentByIdAsync(int id)
+        {
+            return _personManagerContext.Departments.FirstOrDefault(p => p.Id == id);
         }
     }
 }

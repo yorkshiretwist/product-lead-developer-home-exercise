@@ -1,6 +1,6 @@
 ﻿namespace UKParliament.CodeTest.Models
 {
-    public class PagedResponseModel<T>
+    public class PagedResult<T>
     {
         public int Page { get; set; }
 

@@ -1,14 +1,14 @@
-﻿using UKParliament.CodeTest.Models;
+﻿using UKParliament.CodeTest.Web.ViewModels;
 
 namespace UKParliament.CodeTest.Services;
 
 public interface IPersonService
 {
-    Task<Person> GetPersonByIdAsync(int id);
+    Task<PersonViewModel?> GetPersonByIdAsync(int id);
 
-    Task<Person> UpdatePersonAsync(Person person);
+    Task<CreateOrUpdatePersonResult> UpdatePersonAsync(PersonViewModel personViewModel);
 
-    Task<Person> CreatePersonAsync(Person person);
+    Task<CreateOrUpdatePersonResult> CreatePersonAsync(PersonViewModel personViewModel);
 
-    Task<PagedResponseModel<Person>> SearchPeopleAsync(SearchPeopleModel searchPeopleModel);
+    Task<PagedResponseViewModel<PersonViewModel>> SearchPeopleAsync(SearchPeopleQueryViewModel searchPeopleViewModel);
 }

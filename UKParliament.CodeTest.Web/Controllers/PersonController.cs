@@ -19,25 +19,61 @@ public class PersonController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<PersonViewModel>> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var person = await _personService.GetPersonByIdAsync(id);
+        if (person == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(person);
     }
 
     [Route("{id:int}")]
     [HttpPut]
     public async Task<ActionResult<PersonViewModel>> UpdateAsync(PersonViewModel personViewModel)
     {
-        throw new NotImplementedException();
+        var updatePersonResult = await _personService.UpdatePersonAsync(personViewModel);
+
+        if (updatePersonResult.ValidationErrors != null && updatePersonResult.ValidationErrors.Any())
+        {
+            return BadRequest(updatePersonResult.ValidationErrors);
+        }
+
+        if (updatePersonResult.Person == null)
+        {
+            return StatusCode(500);
+        }
+
+        return Ok(updatePersonResult.Person);
     }
 
     [HttpPost]
     public async Task<ActionResult<PersonViewModel>> CreateAsync(PersonViewModel personViewModel)
     {
-        throw new NotImplementedException();
+        var createPersonResult = await _personService.UpdatePersonAsync(personViewModel);
+
+        if (createPersonResult.ValidationErrors != null && createPersonResult.ValidationErrors.Any())
+        {
+            return BadRequest(createPersonResult.ValidationErrors);
+        }
+
+        if (createPersonResult.Person == null)
+        {
+            return StatusCode(500);
+        }
+
+        return Ok(createPersonResult.Person);
     }
 
     [HttpPost]
-    public async Task<ActionResult<PersonViewModel>> SearchAsync(SearchPeopleViewModel searchPeopleViewModel)
+    public async Task<ActionResult<PersonViewModel>> SearchAsync(SearchPeopleQueryViewModel searchPeopleViewModel)
     {
-        throw new NotImplementedException();
+        var pagedResponse = await _personService.SearchPeopleAsync(searchPeopleViewModel);
+        if (pagedResponse.TotalCount == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok(pagedResponse);
     }
 }
