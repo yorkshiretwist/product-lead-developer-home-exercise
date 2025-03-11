@@ -1,4 +1,13 @@
-<p>Test</p>
-<ul *ngFor="let department of departments$">
-  <li>{{ department.id }} : {{ department.name }}</li>
-</ul>
+<header>
+  <h1>UK Parliament People Management</h1>
+</header>
+
+<main>
+  <section id="people">
+    <people-search-form></people-search-form>
+    <people-list></people-list>
+  </section>
+  <section id="person">
+    <person-form [(person)]="newPerson"></person-form>
+  </section>
+</main>

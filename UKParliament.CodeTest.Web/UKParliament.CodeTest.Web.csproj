@@ -24,9 +24,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\models\search-people-result-view-model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\UKParliament.CodeTest.Data\UKParliament.CodeTest.Data.csproj" />
     <ProjectReference Include="..\UKParliament.CodeTest.Services\UKParliament.CodeTest.Services.csproj" />
     <ProjectReference Include="..\UKParliament.CodeTest.Web.ViewModels\UKParliament.CodeTest.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\models\search-people-result-view-model.ts" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

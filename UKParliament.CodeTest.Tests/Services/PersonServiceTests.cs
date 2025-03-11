@@ -34,7 +34,7 @@ namespace UKParliament.CodeTest.Tests
             var departments = GetTestDepartments();
 
             _mockRepository.Setup(repo => repo.CreatePersonAsync(It.IsAny<Person>())).ReturnsAsync(createdPerson);
-            _mockRepository.Setup(repo => repo.GetDepartmentByIdAsync(personToCreateViewModel.Department.Id)).ReturnsAsync(departments.First(x => x.Id == personToCreateViewModel.Department.Id));
+            _mockRepository.Setup(repo => repo.GetDepartmentByIdAsync(personToCreateViewModel.DepartmentId)).ReturnsAsync(departments.First(x => x.Id == personToCreateViewModel.DepartmentId));
             _mockPersonValidationService.Setup(x => x.ValidatePersonAsync(personToCreateViewModel, true)).ReturnsAsync(new List<ValidationError>());
 
             // Act
@@ -45,7 +45,7 @@ namespace UKParliament.CodeTest.Tests
             result.Person.Should().BeEquivalentTo(createdPersonViewModel);
             result.ValidationErrors.Should().BeNullOrEmpty();
             _mockRepository.Verify(repo => repo.CreatePersonAsync(It.Is<Person>(x => x.Should().BeEquivalentTo(personToCreate, "") != null)), Times.Once);
-            _mockRepository.Verify(repo => repo.GetDepartmentByIdAsync(personToCreateViewModel.Department.Id), Times.Once);
+            _mockRepository.Verify(repo => repo.GetDepartmentByIdAsync(personToCreateViewModel.DepartmentId), Times.Once);
             _mockPersonValidationService.Verify(x => x.ValidatePersonAsync(personToCreateViewModel, true), Times.Once);
         }
 

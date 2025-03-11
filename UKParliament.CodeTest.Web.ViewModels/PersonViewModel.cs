@@ -12,5 +12,7 @@ public class PersonViewModel
 
     public bool IsActive { get; set; }
 
-    public DepartmentViewModel? Department { get; set; }
+    public int DepartmentId { get; set; }
+
+    public string? DepartmentName { get; set; }
 }

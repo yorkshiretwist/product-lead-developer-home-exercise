@@ -1,23 +1,27 @@
+$colour-purple: #373151;
+
+app-dashboard {
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
 header {
-  margin-bottom: 1.3rem;
-  text-align: center;
+  background: $colour-purple;
+  color: #fff;
+  padding: 1rem;
+  height: 5rem;
 
-  img {
-    width: 200px;
-    display: inline-block;
-    margin-bottom: 15px;
-
-    @media (min-width: 700px) {
-      width: 250px;
-      margin-bottom: 35px;
-    }
+  h1, h2, h3, h4, h5 {
+    color: #fff;
   }
 }
 
-table {
-  tbody {
-    td.group {
-      font-weight: bold;
-    }
-  }
+main {
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  height: calc(100% - 5rem);
+}
+
+section {
+    padding: 1rem;
 }

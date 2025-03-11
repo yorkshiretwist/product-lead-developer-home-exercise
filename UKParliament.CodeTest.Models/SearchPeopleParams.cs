@@ -1,6 +1,6 @@
 ﻿namespace UKParliament.CodeTest.Models
 {
-    public class SearchPeopleQuery
+    public class SearchPeopleParams
     {
         /// <summary>
         /// The text query, which searches email addresses, first names, and last names
@@ -21,5 +21,10 @@
         /// The department id for which to fetch people; default is null (all departments)
         /// </summary>
         public int? DepartmentId { get; set; } = null;
+
+        /// <summary>
+        /// A boolean indicating whether to only fetch active people or not; default is false (all people, irrespective of their active status)
+        /// </summary>
+        public bool OnlyActive { get; set; }
     }
 }

@@ -38,37 +38,47 @@ namespace UKParliament.CodeTest.Data
             return person;
         }
 
-        public async Task<PagedResult<Person>> SearchPeopleAsync(SearchPeopleQuery searchPeopleModel)
+        public async Task<PagedResult<Person>> SearchPeopleAsync(SearchPeopleParams searchPeopleModel)
         {
             var skip = searchPeopleModel.PageSize * (searchPeopleModel.Page - 1);
-            var query = _personManagerContext.People;
+            // TODO: check that this doesn't fetch every user from the database
+            // and then filter them in memory - filtering should be done in the database
+            var people = _personManagerContext.People.AsEnumerable();
 
             if (!string.IsNullOrWhiteSpace(searchPeopleModel.Query))
             {
-                query.Where(x => x.EmailAddress.Contains(searchPeopleModel.Query)
-                    || x.FirstName.Contains(searchPeopleModel.Query)
-                    || x.LastName.Contains(searchPeopleModel.Query)
-                    || $"{x.FirstName}{x.LastName}".Contains(Regex.Replace(searchPeopleModel.Query, @"[\s\t\n\r]+", "")));
+                // TODO: tests are required to ensure this regex is working as expected
+                var fullNameQuery = Regex.Replace(searchPeopleModel.Query, @"[\s\t\n\r]+", "");
+                people = people.Where(x => x.EmailAddress.Contains(searchPeopleModel.Query, StringComparison.InvariantCultureIgnoreCase)
+                    || x.FirstName.Contains(searchPeopleModel.Query, StringComparison.InvariantCultureIgnoreCase)
+                    || x.LastName.Contains(searchPeopleModel.Query, StringComparison.InvariantCultureIgnoreCase)
+                    || $"{x.FirstName}{x.LastName}".Contains(fullNameQuery, StringComparison.InvariantCultureIgnoreCase));
             };
 
             if (searchPeopleModel.DepartmentId.HasValue)
             {
-                query.Where(x => x.DepartmentId == searchPeopleModel.DepartmentId.Value);
+                people = people.Where(x => x.DepartmentId == searchPeopleModel.DepartmentId.Value);
             }
 
-            var totalPeopleFound = query.Count();
+            if (searchPeopleModel.OnlyActive)
+            {
+                people = people.Where(x => x.IsActive);
+            }
+
+            var totalPeopleFound = people.Count();
 
             var totalPages = (int)Math.Ceiling((decimal)totalPeopleFound / searchPeopleModel.PageSize);
 
-            var pagedPeople = query
+            var pagedPeople = people
                 .OrderBy(x => x.Id)
                 .Skip(skip)
-                .Take(searchPeopleModel.PageSize);
+                .Take(searchPeopleModel.PageSize)
+                .ToList();
 
             return new PagedResult<Person>
             {
                 TotalCount = totalPeopleFound,
-                Items = pagedPeople.ToList(),
+                Items = pagedPeople,
                 Page = searchPeopleModel.Page,
                 PageSize = searchPeopleModel.PageSize,
                 TotalPages = totalPages

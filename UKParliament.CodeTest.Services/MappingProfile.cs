@@ -10,7 +10,7 @@ namespace UKParliament.CodeTest.Services
         {
             CreateMap<Person, PersonViewModel>().ReverseMap();
             CreateMap<Department, DepartmentViewModel>().ReverseMap();
-            CreateMap<SearchPeopleQueryViewModel, SearchPeopleQuery>();
+            CreateMap<SearchPeopleParamsViewModel, SearchPeopleParams>();
             CreateMap<ValidationError, ValidationErrorViewModel>();
             CreateMap<PagedResult<Person>, PagedResponseViewModel<PersonViewModel>>()
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));

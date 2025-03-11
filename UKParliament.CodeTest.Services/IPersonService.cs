@@ -10,5 +10,5 @@ public interface IPersonService
 
     Task<CreateOrUpdatePersonResult> CreatePersonAsync(PersonViewModel personViewModel);
 
-    Task<PagedResponseViewModel<PersonViewModel>> SearchPeopleAsync(SearchPeopleQueryViewModel searchPeopleViewModel);
+    Task<PagedResponseViewModel<PersonViewModel>> SearchPeopleAsync(SearchPeopleParamsViewModel searchPeopleViewModel);
 }

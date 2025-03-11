@@ -39,7 +39,8 @@ public class PersonService : IPersonService
 
         var createdPersonViewModel = _mapper.Map<PersonViewModel>(createdPerson);
         var createdPersonDepartment = await _repository.GetDepartmentByIdAsync(createdPerson.DepartmentId);
-        createdPersonViewModel.Department = _mapper.Map<DepartmentViewModel>(createdPersonDepartment);
+        createdPersonViewModel.DepartmentId = createdPersonDepartment.Id;
+        createdPersonViewModel.DepartmentName = createdPersonDepartment.Name;
 
         return new CreateOrUpdatePersonResult
         {
@@ -58,9 +59,9 @@ public class PersonService : IPersonService
         return _mapper.Map<PersonViewModel>(foundPerson);
     }
 
-    public async Task<PagedResponseViewModel<PersonViewModel>> SearchPeopleAsync(SearchPeopleQueryViewModel searchPeopleQueryViewModel)
+    public async Task<PagedResponseViewModel<PersonViewModel>> SearchPeopleAsync(SearchPeopleParamsViewModel searchPeopleQueryViewModel)
     {
-        var searchModel = _mapper.Map<SearchPeopleQuery>(searchPeopleQueryViewModel);
+        var searchModel = _mapper.Map<SearchPeopleParams>(searchPeopleQueryViewModel);
         var pagedResult = await _repository.SearchPeopleAsync(searchModel);
         if (pagedResult == null)
         {

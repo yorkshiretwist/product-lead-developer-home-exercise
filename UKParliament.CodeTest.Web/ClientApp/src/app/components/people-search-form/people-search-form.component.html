@@ -1,0 +1,26 @@
+<form>
+  <p>
+    <label>
+      Search text
+      <input type="text" [(ngModel)]="searchText" name="searchText" />
+    </label>
+  </p>
+  <p>
+    <label>
+      Department
+      <select [(ngModel)]="selectedDepartmentId" name="departmentId">
+        <option *ngFor="let department of departments" value="{{ department.id }}">{{ department.name }}</option>
+      </select>
+    </label>
+  </p>
+  <p>
+    <label>
+      <input type="checkbox" [(ngModel)]="onlyActive" name="onlyActive" />
+      Only active people
+    </label>
+  </p>
+  <p>
+    <button (click)="onSearch()">Search</button>
+    <button (click)="onClear()">Clear</button>
+  </p>
+</form>

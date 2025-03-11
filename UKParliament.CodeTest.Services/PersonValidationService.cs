@@ -65,14 +65,13 @@ namespace UKParliament.CodeTest.Services
                 errors.Add(InvalidEmailAddressError);
             }
 
-            if (personViewModel.Department == null || personViewModel.Department.Id <= 0)
+            if (personViewModel.DepartmentId <= 0)
             {
                 errors.Add(InvalidDepartmentIdError);
             }
-
-            if (personViewModel.Department != null && personViewModel.Department.Id > 0)
+            else
             {
-                var department = await _repository.GetDepartmentByIdAsync(personViewModel.Department.Id);
+                var department = await _repository.GetDepartmentByIdAsync(personViewModel.DepartmentId);
                 if (department == null)
                 {
                     errors.Add(InvalidDepartmentError);

@@ -65,8 +65,9 @@ public class PersonController : ControllerBase
         return Ok(createPersonResult.Person);
     }
 
+    [Route("search")]
     [HttpPost]
-    public async Task<ActionResult<PersonViewModel>> SearchAsync(SearchPeopleQueryViewModel searchPeopleViewModel)
+    public async Task<ActionResult<PersonViewModel>> SearchAsync(SearchPeopleParamsViewModel searchPeopleViewModel)
     {
         var pagedResponse = await _personService.SearchPeopleAsync(searchPeopleViewModel);
         if (pagedResponse.TotalCount == 0)

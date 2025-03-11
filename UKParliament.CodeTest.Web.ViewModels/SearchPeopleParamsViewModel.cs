@@ -1,6 +1,6 @@
 ﻿namespace UKParliament.CodeTest.Web.ViewModels
 {
-    public class SearchPeopleQueryViewModel
+    public class SearchPeopleParamsViewModel
     {
         /// <summary>
         /// The text query, which searches email addresses, first names, and last names
@@ -13,7 +13,7 @@
         public int Page { get; set; } = 1;
 
         /// <summary>
-        /// The number of people to return; defauult is 25
+        /// The number of people to return; default is 25
         /// </summary>
         public int PageSize { get; set; } = 25;
 
@@ -21,5 +21,10 @@
         /// The department id for which to fetch people; default is null (all departments)
         /// </summary>
         public int? DepartmentId { get; set; } = null;
+
+        /// <summary>
+        /// A boolean indicating whether to only fetch active people or not; default is false (all people, irrespective of their active status)
+        /// </summary>
+        public bool OnlyActive { get; set; }
     }
 }

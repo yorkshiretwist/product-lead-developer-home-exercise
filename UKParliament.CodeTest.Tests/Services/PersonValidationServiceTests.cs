@@ -23,8 +23,8 @@ namespace UKParliament.CodeTest.Tests
 
         private void SetupValidDepartment(PersonViewModel personViewModel)
         {
-            var department = GetTestDepartments().First(x => x.Id == personViewModel.Department.Id);
-            _mockRepository.Setup(repo => repo.GetDepartmentByIdAsync(personViewModel.Department.Id)).ReturnsAsync(department);
+            var department = GetTestDepartments().First(x => x.Id == personViewModel.DepartmentId);
+            _mockRepository.Setup(repo => repo.GetDepartmentByIdAsync(personViewModel.DepartmentId)).ReturnsAsync(department);
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace UKParliament.CodeTest.Tests
         {
             // Arrange
             var personViewModel = GetTestPersonViewModel();
-            personViewModel.Department = null;
+            personViewModel.DepartmentId = 0;
 
             // Act
             var result = await _personValidationService.ValidatePersonAsync(personViewModel);
@@ -134,7 +134,7 @@ namespace UKParliament.CodeTest.Tests
         {
             // Arrange
             var personViewModel = GetTestPersonViewModel();
-            personViewModel.Department.Id = departmentId;
+            personViewModel.DepartmentId = departmentId;
 
             // Act
             var result = await _personValidationService.ValidatePersonAsync(personViewModel);

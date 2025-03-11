@@ -141,7 +141,7 @@ namespace UKParliament.CodeTest.Tests
             var testPeople = GetTestPeople();
             _mockPersonManagerContext.Setup(m => m.People).ReturnsDbSet(testPeople);
 
-            var searchPeopleModel = new SearchPeopleQuery
+            var searchPeopleModel = new SearchPeopleParams
             {
                 Page = 1,
                 PageSize = 10

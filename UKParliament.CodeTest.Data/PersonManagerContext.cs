@@ -41,7 +41,8 @@ public class PersonManagerContext : DbContext
                 FirstName = faker.Name.FirstName(),
                 LastName = faker.Name.LastName(),
                 DepartmentId = faker.Random.Number(1, 4),
-                EmailAddress = faker.Internet.Email()
+                EmailAddress = faker.Internet.Email(),
+                IsActive = faker.Random.Bool()
             });
         }
     }

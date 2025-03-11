@@ -62,11 +62,8 @@ namespace UKParliament.CodeTest.Tests
                 LastName = person.LastName,
                 EmailAddress = person.EmailAddress,
                 IsActive = person.IsActive,
-                Department = new DepartmentViewModel
-                {
-                    Id = department.Id,
-                    Name = department.Name
-                }
+                DepartmentId = department.Id,
+                DepartmentName = department.Name
             };
         }
     }
