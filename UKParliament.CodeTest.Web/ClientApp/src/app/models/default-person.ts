@@ -7,11 +7,13 @@ export class DefaultPerson implements PersonViewModel {
     emailAddress: string;
     isActive: boolean;
     departmentId: number;
+    departmentName: string;
   constructor() {
     this.id = 0;
     this.firstName = '';
     this.lastName = '';
     this.departmentId = 0;
+    this.departmentName = '';
     this.emailAddress = '';
     this.isActive = true;
   }

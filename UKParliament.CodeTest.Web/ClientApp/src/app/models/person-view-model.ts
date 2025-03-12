@@ -5,4 +5,5 @@ export interface PersonViewModel {
   emailAddress: string;
   isActive: boolean;
   departmentId: number;
+  departmentName: string;
 }

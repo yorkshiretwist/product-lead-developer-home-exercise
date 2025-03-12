@@ -4,24 +4,3 @@ app-dashboard {
     display: grid;
     grid-template-rows: 1fr auto;
 }
-
-header {
-  background: $colour-purple;
-  color: #fff;
-  padding: 1rem;
-  height: 5rem;
-
-  h1, h2, h3, h4, h5 {
-    color: #fff;
-  }
-}
-
-main {
-  display: grid;
-  grid-template-columns: 2fr 5fr;
-  height: calc(100% - 5rem);
-}
-
-section {
-    padding: 1rem;
-}

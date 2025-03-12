@@ -9,6 +9,7 @@
     <label>
       Department
       <select [(ngModel)]="selectedDepartmentId" name="departmentId">
+        <option selected>Choose a department...</option>
         <option *ngFor="let department of departments" value="{{ department.id }}">{{ department.name }}</option>
       </select>
     </label>
@@ -21,6 +22,6 @@
   </p>
   <p>
     <button (click)="onSearch()">Search</button>
-    <button (click)="onClear()">Clear</button>
+    <button (click)="onClear()" class="secondary">Clear</button>
   </p>
 </form>

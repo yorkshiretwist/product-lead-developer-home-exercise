@@ -18,6 +18,19 @@ export class PeopleSearchFormComponent {
     this.getAllDepartments();
   }
 
+  ngOnInit() {
+    this.searchText = undefined;
+    this.selectedDepartmentId = undefined;
+    this.onlyActive = false;
+    this.personService.setPeopleSearchParams({
+      page: 1,
+      pageSize: 25,
+      query: undefined,
+      departmentId: undefined,
+      onlyActive: undefined
+    });
+  }
+
   getAllDepartments(): void {
     this.departmentService.getAll().subscribe({
       next: (result) => {

@@ -56,7 +56,7 @@ public class PersonService : IPersonService
             return null;
         }
 
-        return _mapper.Map<PersonViewModel>(foundPerson);
+        return AddDepartmentName(_mapper.Map<PersonViewModel>(foundPerson));
     }
 
     public async Task<PagedResponseViewModel<PersonViewModel>> SearchPeopleAsync(SearchPeopleParamsViewModel searchPeopleQueryViewModel)
@@ -68,7 +68,16 @@ public class PersonService : IPersonService
             return null;
         }
 
-        return _mapper.Map<PagedResponseViewModel<PersonViewModel>>(pagedResult);
+        var departments = await _repository.GetDepartmentsAsync();
+
+        var reponse = _mapper.Map<PagedResponseViewModel<PersonViewModel>>(pagedResult);
+
+        reponse.Items = reponse.Items.Select(person =>
+        {
+            return AddDepartmentName(person, departments);
+        }).ToList();
+
+        return reponse;
     }
 
     public async Task<CreateOrUpdatePersonResult> UpdatePersonAsync(PersonViewModel personViewModel)
@@ -92,7 +101,22 @@ public class PersonService : IPersonService
 
         return new CreateOrUpdatePersonResult
         {
-            Person = _mapper.Map<PersonViewModel>(updatedPerson)
+            Person = AddDepartmentName(_mapper.Map<PersonViewModel>(updatedPerson))
         };
+    }
+
+    private PersonViewModel AddDepartmentName(PersonViewModel person, ICollection<Department>? departments = null)
+    {
+        Department department = null;
+        if (departments == null)
+        {
+            department = _repository.GetDepartmentByIdAsync(person.DepartmentId).Result;
+        }
+        else
+        {
+            department = departments.FirstOrDefault(dept => dept.Id == person.DepartmentId);
+        }
+        person.DepartmentName = department == null ? "DEPARTMENT NOT FOUND" : department.Name;
+        return person;
     }
 }

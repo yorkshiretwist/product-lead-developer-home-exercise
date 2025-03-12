@@ -13,6 +13,10 @@ import { NotificationMode } from '../../models/notification-mode';
   styleUrls: ['./person-form.component.scss']
 })
 export class PersonFormComponent {
+  @Input() visible: boolean = false;
+  @Input() set id(personId: number) {
+    this.getPerson(personId);
+  }
   @Input() person!: PersonViewModel;
   personCopy!: PersonViewModel;
   @Output() personChange = new EventEmitter<PersonViewModel>();
@@ -29,6 +33,7 @@ export class PersonFormComponent {
   }
 
   ngOnInit() {
+    this.hideNotification();
     this.personService.personId$.subscribe(personId => {
       this.getPerson(personId);
     });
@@ -44,11 +49,11 @@ export class PersonFormComponent {
   }
 
   getPerson(personId: number): void {
+    this.hideNotification();
     if (personId == 0) {
       this.setupPerson(new DefaultPerson());
       return;
     }
-    this.hideNotification();
     this.personService.getById(personId).subscribe({
       next: (result) => {
         this.setupPerson(result);
@@ -111,13 +116,11 @@ export class PersonFormComponent {
   }
 
   cancelChanges() {
-    this.showErrorNotification('NOPE');
     this.setupPerson(this.personCopy);
   }
 
   clearForm() {
     this.hideNotification();
-    this.showSuccessNotification('YEP');
     this.setupPerson(new DefaultPerson());
   }
 

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DepartmentService } from '../../services/department.service';
 import { DepartmentViewModel } from '../../models/department-view-model';
 import { PersonViewModel } from '../../models/person-view-model';
+import { PersonService } from '../../services/person.service';
+import { DefaultPerson } from '../../models/default-person';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,15 +14,26 @@ export class DashboardComponent {
   departments: DepartmentViewModel[] = [];
   newPerson: PersonViewModel;
 
-  constructor(private departmentService: DepartmentService) {
-    this.newPerson = {
-      id: 0,
-      firstName: '',
-      lastName: '',
-      departmentId: 0,
-      emailAddress: '',
-      isActive: false
-    };
+  @Input() personFormVisible: boolean = false;
+  @Input() peopleListVisible: boolean = true;
+
+  constructor(private personService: PersonService, private departmentService: DepartmentService) {
+    this.newPerson = new DefaultPerson();
+    this.personFormVisible = false;
+    this.peopleListVisible = true;
+  }
+
+  ngOnInit() {
+    this.personService.personId$.subscribe(personId => {
+      this.personFormVisible = true;
+      this.peopleListVisible = false;
+    });
+
+    this.personService.searchPeopleParams$.subscribe(personId => {
+      this.personFormVisible = false;
+      this.peopleListVisible = true;
+    });
+
     this.getAllDepartments();
   }
 
@@ -31,5 +44,11 @@ export class DashboardComponent {
       },
       error: (e) => console.error(`Error: ${e}`)
     });
+  }
+
+  createNewPerson() {
+    this.personService.setPersonId(0);
+    this.personFormVisible = true;
+    this.peopleListVisible = false;
   }
 }

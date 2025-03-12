@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PersonService } from '../../services/person.service';
 import { SearchPeopleParamsViewModel } from '../../models/search-people-params-view-model';
 import { SearchPeopleResultViewModel } from '../../models/search-people-result-view-model';
@@ -9,6 +9,8 @@ import { SearchPeopleResultViewModel } from '../../models/search-people-result-v
   styleUrls: ['./people-list.component.scss']
 })
 export class PeopleListComponent {
+  @Input() visible: boolean = false;
+
   searchPeopleResult!: SearchPeopleResultViewModel;
   searchPeopleParams: SearchPeopleParamsViewModel;
 
@@ -30,10 +32,6 @@ export class PeopleListComponent {
 
   setPersonId(id: number) {
     this.personService.setPersonId(id);
-  }
-
-  createNewPerson() {
-    this.personService.setPersonId(0);
   }
 
   searchPeople(): void {

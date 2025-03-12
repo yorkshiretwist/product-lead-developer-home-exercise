@@ -1,6 +1,22 @@
-<p>
-  <button (click)="createNewPerson()">Create new person</button>
-</p>
-<ul>
-  <li *ngFor="let person of searchPeopleResult?.items" class="person active-{{ person.isActive }}"><a href="#{{ person.id }}" (click)="setPersonId(person.id)">{{ person.firstName }} {{ person.lastName }}</a></li>
-</ul>
+@if (visible) {
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Department</th>
+      <th>Email</th>
+      <th>Active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let person of searchPeopleResult?.items" class="person active-{{ person.isActive }}">
+      <td>
+        <a routerLink="/people/{{ person.id }}" (click)="setPersonId(person.id)">{{ person.firstName }} {{ person.lastName }}</a>
+      </td>
+      <td>{{ person.departmentName }}</td>
+      <td>{{ person.emailAddress }}</td>
+      <td>{{ person.isActive ? 'Yes' : 'No' }}</td>
+    </tr>
+  </tbody>
+</table>
+}

@@ -1,13 +1,16 @@
 <header>
-  <h1>UK Parliament People Management</h1>
+  <h1>People Management</h1>
 </header>
 
-<main>
+<main class="dashboard">
   <section id="people">
     <people-search-form></people-search-form>
-    <people-list></people-list>
+    <p>
+      <button (click)="createNewPerson()">Create new person</button>
+    </p>
   </section>
-  <section id="person">
-    <person-form [(person)]="newPerson"></person-form>
+  <section>
+    <people-list [visible]="peopleListVisible"></people-list>
+    <person-form [(person)]="newPerson" [visible]="personFormVisible"></person-form>
   </section>
 </main>

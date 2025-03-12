@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using Moq;
 using UKParliament.CodeTest.Data;
 using UKParliament.CodeTest.Models;
