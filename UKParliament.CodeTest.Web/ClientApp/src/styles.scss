@@ -40,3 +40,11 @@ table {
         min-width: 600px;
     }
 }
+
+input:user-invalid,
+select:user-invalid,
+textarea:user-invalid {
+  border: 1px solid #c00;
+  background: #e6c2c2;
+  box-shadow: 0 0 5px 1px #ff6060;
+}

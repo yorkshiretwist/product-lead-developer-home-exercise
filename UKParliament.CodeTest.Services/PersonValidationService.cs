@@ -7,19 +7,19 @@ namespace UKParliament.CodeTest.Services
 {
     public class PersonValidationService : IPersonValidationService
     {
-        public static ValidationError NullPersonError = new ValidationError { Code = 1000, Description = "The person object is null" };
+        public static ValidationError NullPersonError = new ValidationError { Code = 1000, Description = "No details about the person have been submitted" };
 
-        public static ValidationError InvalidIdError = new ValidationError { Code = 1001, Description = "The Id property of the person must be greater than zero" };
+        public static ValidationError InvalidIdError = new ValidationError { Code = 1001, Description = "A valid ID must be provided" };
 
-        public static ValidationError InvalidFirstNameError = new ValidationError { Code = 1002, Description = "The FirstName property of the person not be null or empty" };
+        public static ValidationError InvalidFirstNameError = new ValidationError { Code = 1002, Description = "A valid first name must be provided" };
 
-        public static ValidationError InvalidLastNameError = new ValidationError { Code = 1003, Description = "The LastName property of the person not be null or empty" };
+        public static ValidationError InvalidLastNameError = new ValidationError { Code = 1003, Description = "A valid last name must be provided" };
 
-        public static ValidationError InvalidEmailAddressError = new ValidationError { Code = 1004, Description = "The EmailAddress property of the person not be null or empty" };
+        public static ValidationError InvalidEmailAddressError = new ValidationError { Code = 1004, Description = "A valid email address must be provided" };
 
-        public static ValidationError InvalidDepartmentIdError = new ValidationError { Code = 1005, Description = "The Department.Id property of the person must be greater than zero" };
+        public static ValidationError InvalidDepartmentIdError = new ValidationError { Code = 1005, Description = "A valid department must be provided" };
 
-        public static ValidationError InvalidDepartmentError = new ValidationError { Code = 1006, Description = "The given Department.Id property does not map to a valid department" };
+        public static ValidationError InvalidDepartmentError = new ValidationError { Code = 1006, Description = "The department you have chosen cannot be found" };
 
         private readonly IRepository _repository;
 

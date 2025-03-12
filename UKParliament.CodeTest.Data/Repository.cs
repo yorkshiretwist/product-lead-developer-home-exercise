@@ -32,7 +32,12 @@ namespace UKParliament.CodeTest.Data
                 throw new InvalidOperationException($"Person with id {person.Id} not found");
             }
 
-            _personManagerContext.People.Update(person);
+            currentPerson.FirstName = person.FirstName;
+            currentPerson.LastName = person.LastName;
+            currentPerson.EmailAddress = person.EmailAddress;
+            currentPerson.DepartmentId = person.DepartmentId;
+            currentPerson.IsActive = person.IsActive;
+
             await _personManagerContext.SaveChangesAsync();
 
             return person;
@@ -42,7 +47,9 @@ namespace UKParliament.CodeTest.Data
         {
             var skip = searchPeopleModel.PageSize * (searchPeopleModel.Page - 1);
             // TODO: check that this doesn't fetch every user from the database
-            // and then filter them in memory - filtering should be done in the database
+            // and then filter them in memory - filtering should be done in the database.
+            // I tried IQueryable, but that didn't work as expected - perhaps that
+            // was because we're using an in-memory database, or maybe I did it wrong.
             var people = _personManagerContext.People.AsEnumerable();
 
             if (!string.IsNullOrWhiteSpace(searchPeopleModel.Query))

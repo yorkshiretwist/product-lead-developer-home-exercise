@@ -1,3 +1,6 @@
+<p>
+  <button (click)="createNewPerson()">Create new person</button>
+</p>
 <ul>
   <li *ngFor="let person of searchPeopleResult?.items" class="person active-{{ person.isActive }}"><a href="#{{ person.id }}" (click)="setPersonId(person.id)">{{ person.firstName }} {{ person.lastName }}</a></li>
 </ul>

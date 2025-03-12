@@ -1,26 +1,35 @@
-<form>
+<form id="personForm">
+  <h2>
+    @if(person.id > 0) {
+    {{ personCopy.firstName }} {{ personCopy.lastName }}
+    }
+    @if (person.id == 0) {
+    Create a new person
+    }
+  </h2>
+  <notification-box [mode]="notificationMode" [visible]="notificationVisible" [message]="notificationMessage"></notification-box>
   <p>
     <label>
       First name
-      <input type="text" [(ngModel)]="person.firstName" name="firstName" />
+      <input type="text" required minlength="1" [(ngModel)]="person.firstName" name="firstName" />
     </label>
   </p>
   <p>
     <label>
       Last name
-      <input type="text" [(ngModel)]="person.lastName" name="lastName" />
+      <input type="text" required minlength="1" [(ngModel)]="person.lastName" name="lastName" />
     </label>
   </p>
   <p>
     <label>
       Email address
-      <input type="text" [(ngModel)]="person.emailAddress" name="emailAddress" />
+      <input type="email" required minlength="3" [(ngModel)]="person.emailAddress" name="emailAddress" />
     </label>
   </p>
   <p>
     <label>
       Department
-      <select [(ngModel)]="person.departmentId" name="departmentId">
+      <select required [(ngModel)]="person.departmentId" name="departmentId">
         <option *ngFor="let department of departments" value="{{ department.id }}">{{ department.name }}</option>
       </select>
     </label>
@@ -30,5 +39,15 @@
       <input type="checkbox" [(ngModel)]="person.isActive" name="isActive" />
       Is this person active?
     </label>
+  </p>
+  <p>
+    @if(person.id > 0) {
+    <button (click)="updatePerson(person)">Update person</button>
+    <button (click)="cancelChanges()">Cancel changes</button>
+    }
+    @if (person.id == 0) {
+    <button (click)="createPerson(person)">Create person</button>
+    <button (click)="clearForm()">Clear</button>
+    }
   </p>
 </form>

@@ -50,7 +50,7 @@ public class PersonController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<PersonViewModel>> CreateAsync(PersonViewModel personViewModel)
     {
-        var createPersonResult = await _personService.UpdatePersonAsync(personViewModel);
+        var createPersonResult = await _personService.CreatePersonAsync(personViewModel);
 
         if (createPersonResult.ValidationErrors != null && createPersonResult.ValidationErrors.Any())
         {

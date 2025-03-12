@@ -1,0 +1,21 @@
+.notification {
+    padding: 0.6rem 1rem;
+    border: 1px solid #333;
+    margin-bottom: 1rem;
+}
+.notification p {
+    margin: 0;
+    padding: 0;
+}
+.notification.mode-success {
+  border-color: 0c0;
+  background-color: #e5f6e4;
+}
+.notification.mode-warning {
+  border-color: #ff6a00;
+  background-color: #ebb996;
+}
+.notification.mode-error {
+  border-color: #c00;
+  background-color: #f1c6c6;
+}

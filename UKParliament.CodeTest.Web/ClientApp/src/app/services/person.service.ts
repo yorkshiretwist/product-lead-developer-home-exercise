@@ -32,4 +32,12 @@ export class PersonService {
   search(searchParams: SearchPeopleParamsViewModel): Observable<SearchPeopleResultViewModel> {
     return this.http.post<SearchPeopleResultViewModel>(this.baseUrl + `api/people/search`, searchParams)
   }
+
+  updatePerson(person: PersonViewModel): Observable<PersonViewModel> {
+    return this.http.put<PersonViewModel>(this.baseUrl + `api/people/${person.id}`, person);
+  }
+
+  createPerson(person: PersonViewModel): Observable<PersonViewModel> {
+    return this.http.post<PersonViewModel>(this.baseUrl + `api/people`, person);
+  }
 }

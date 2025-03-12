@@ -32,6 +32,10 @@ export class PeopleListComponent {
     this.personService.setPersonId(id);
   }
 
+  createNewPerson() {
+    this.personService.setPersonId(0);
+  }
+
   searchPeople(): void {
     this.personService.search(this.searchPeopleParams).subscribe({
       next: (result) => {

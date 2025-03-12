@@ -120,6 +120,7 @@ namespace UKParliament.CodeTest.Tests
             // Arrange
             var testPeople = GetTestPeople();
             var person = testPeople.FirstOrDefault(p => p.Id == 17);
+            person.FirstName = "Newname";
 
             var mockDbSet = new Mock<DbSet<Person>>();
             mockDbSet.Setup(m => m.Update(It.IsAny<Person>()));
@@ -130,7 +131,6 @@ namespace UKParliament.CodeTest.Tests
             await _repository.UpdatePersonAsync(person);
 
             // Assert
-            mockDbSet.Verify(m => m.Update(person), Times.Once);
             _mockPersonManagerContext.Verify(m => m.SaveChangesAsync(default), Times.Once);
         }
 

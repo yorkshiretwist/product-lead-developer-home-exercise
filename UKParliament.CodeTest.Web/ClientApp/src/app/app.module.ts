@@ -9,13 +9,15 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PeopleListComponent } from './components/people-list/people-list.component';
 import { PersonFormComponent } from './components/person-form/person-form.component';
 import { PeopleSearchFormComponent } from './components/people-search-form/people-search-form.component';
+import { NotificationBoxComponent } from './components/notification-box/notification-box.component';
 
 @NgModule({ declarations: [
         AppComponent,
   DashboardComponent,
   PeopleSearchFormComponent,
   PeopleListComponent,
-  PersonFormComponent
+  PersonFormComponent,
+  NotificationBoxComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         FormsModule,
