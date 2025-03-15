@@ -28,3 +28,7 @@ This 'throw chunks of HTML around' approach has been taken by some recent framew
 Anyway, if I were to do this exercise again I would probably ask if it's acceptable to create the app using _any_ front-end technique of choice. However, for now, this is my submission.
 
 Thank you for reading my rant :)
+
+## Update
+
+I have developed a reponse to this exercise using an alternative approach, please see details in this repo: https://github.com/yorkshiretwist/product-lead-developer-home-exercise-custom
